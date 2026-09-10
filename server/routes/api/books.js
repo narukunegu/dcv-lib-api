@@ -18,7 +18,7 @@ module.exports.register = async (server) => {
           const res = await db.books.search(query);
           console.log(
             chalk.bgGreen(`${(Date.now() - start) / 1000}s`),
-            `${chalk.underline(new Date().toLocaleString())}: ${chalk.bold(res.books.length)} books for ${chalk.blue.bold(query.q)}`,
+            `${chalk.underline(new Date().toLocaleString())}: Get ${chalk.bold(res.books.length)} books for request '${chalk.blue.bold(query.q)}'`,
           );
 
           return res;
@@ -46,7 +46,7 @@ module.exports.register = async (server) => {
           const res = await db.books.getDetail(query);
           console.log(
             chalk.bgGreen(`${(Date.now() - start) / 1000}s`),
-            `${chalk.underline(new Date().toLocaleString())}: ${chalk.bold(res.books.length)} books for ${chalk.blue.bold(query.q)}`,
+            `${chalk.underline(new Date().toLocaleString())}: Get full detail of Book ${chalk.bold(query)}`,
           );
 
           return res;

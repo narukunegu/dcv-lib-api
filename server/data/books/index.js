@@ -106,68 +106,68 @@ const register = async ({ sql, getConnection, closePool }) => {
     const cnx = await getConnection();
     const request = await cnx.request();
 
-    const { Chalk } = await import("chalk");
-    const chalk = new Chalk();
+    //const { Chalk } = await import("chalk");
+    //const chalk = new Chalk();
 
-    try {
-      console.log("Loading data...");
-      const bar = new cliProgress.SingleBar(
-        {},
-        cliProgress.Presets.shades_classic,
-      );
+    //try {
+    //  console.log("Loading data...");
+    //  const bar = new cliProgress.SingleBar(
+    //    {},
+    //    cliProgress.Presets.shades_classic,
+    //  );
 
-      var total = 0;
-      await request
-        .query(
-          "SELECT count([So Tai san]) AS [total] FROM [DataThuVien].[dbo].[Sach] WHERE [BiaSach] IS NOT NULL",
-        )
-        .then((res) => {
-          total = res.recordset[0]["total"];
-        });
+    //  var total = 0;
+    //  await request
+    //    .query(
+    //      "SELECT count([So Tai san]) AS [total] FROM [DataThuVien].[dbo].[Sach] WHERE [BiaSach] IS NOT NULL",
+    //    )
+    //    .then((res) => {
+    //      total = res.recordset[0]["total"];
+    //    });
 
-      bar.start(total, 0);
+    //  bar.start(total, 0);
 
-      request.stream = true;
+    //  request.stream = true;
 
-      request.query(sqlQueries.loadCovers);
+    //  request.query(sqlQueries.loadCovers);
 
-      await request.on("row", (book) => {
-        // Emitted for each row in a recordset
-        request.pause();
+    //  await request.on("row", (book) => {
+    //    // Emitted for each row in a recordset
+    //    request.pause();
 
-        sharp(Buffer.from(book["BiaSach"], "base64"))
-          .jpeg({
-            quality: 100,
-            chromaSubsampling: "4:4:4",
-          })
-          .toFile(`./assets/books/cover/${book["So Tai san"]}.jpg`)
-          .catch((err) => {
-            console.log(`\n`, err);
-          });
+    //    sharp(Buffer.from(book["BiaSach"], "base64"))
+    //      .jpeg({
+    //        quality: 100,
+    //        chromaSubsampling: "4:4:4",
+    //      })
+    //      .toFile(`./assets/books/cover/${book["So Tai san"]}.jpg`)
+    //      .catch((err) => {
+    //        console.log(`\n`, err);
+    //      });
 
-        bar.increment();
-        request.resume();
-      });
+    //    bar.increment();
+    //    request.resume();
+    //  });
 
-      request.on("done", () => {
-        // Always emitted as the last one
-        bar.stop();
-        console.log(
-          chalk.green(
-            `Server ${chalk.underline.bold(version)} successfully started on port ${chalk.underline.bold(port)}`,
-          ),
-        );
-      });
-    } catch (err) {
-      await closePool();
-      throw err;
-    }
+    //  request.on("done", () => {
+    //    // Always emitted as the last one
+    //    bar.stop();
+    //    console.log(
+    //      chalk.green(
+    //        `Server ${chalk.underline.bold(version)} successfully started on port ${chalk.underline.bold(port)}`,
+    //      ),
+    //    );
+    //  });
+    //} catch (err) {
+    //  await closePool();
+    //  throw err;
+    //}
   };
 
   return {
     search,
     getDetail,
-    init,
+    //init,
   };
 };
 
