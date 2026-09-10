@@ -1,6 +1,6 @@
 {
   "name": "dcv-lib",
-  "version": "3.1.0",
+  "version": "26.9.10",
   "private": true,
   "scripts": {
     "start": "node server/."
