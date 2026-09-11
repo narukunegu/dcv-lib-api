@@ -90,6 +90,7 @@ const register = async ({ sql, getConnection, closePool }) => {
     await request
       .query(sqlQueries.getDetail)
       .then((res) => {
+        console.log(res);
         result = res.recordset[0] || [];
       })
       .catch((err) => {
