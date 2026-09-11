@@ -27,7 +27,7 @@ const app = async (config) => {
 
   //load book covers
   //console.log('On dev')
-  //await server.plugins.sql.client.books.init(config);
+  await server.plugins.sql.client.books.init(config);
 
   return server;
 };
