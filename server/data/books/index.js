@@ -167,7 +167,7 @@ const register = async ({ sql, getConnection, closePool }) => {
   return {
     search,
     getDetail,
-    //init,
+    init,
   };
 };
 
