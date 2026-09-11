@@ -14,6 +14,11 @@ const startServer = async () => {
 
     // start the web server
     await app.start();
+    console.log(
+      chalk.green(
+        `Server ${chalk.underline.bold(version)} successfully started on port ${chalk.underline.bold(port)}`,
+      ),
+    );
   } catch (err) {
     log(chalk.bgRed("ERR"), "Startup error:", err);
     process.exit(1);
