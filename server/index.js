@@ -16,7 +16,7 @@ const startServer = async () => {
     await app.start();
     console.log(
       chalk.green(
-        `Server ${chalk.underline.bold(config.version)} successfully started on port ${chalk.underline.bold(port)}`,
+        `Server ${chalk.underline.bold(config.version)} successfully started on port ${chalk.underline.bold(config.port)}`,
       ),
     );
   } catch (err) {
