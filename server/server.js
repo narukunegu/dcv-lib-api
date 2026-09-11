@@ -25,6 +25,11 @@ const app = async (config) => {
   // register routes
   await routes.register(server);
 
+  console.log(
+    chalk.green(
+      `Server ${chalk.underline.bold(config.version)} successfully started on port ${chalk.underline.bold(port)}`,
+    ),
+  );
   //load book covers
   //console.log('On dev')
   //await server.plugins.sql.client.books.init(config);
