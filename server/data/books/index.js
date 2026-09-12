@@ -77,7 +77,7 @@ const register = async ({ sql, getConnection, closePool }) => {
     };
   };
 
-  const getDetail = async ({ q }) => {
+  const getDetail = async (q) => {
     const cnx = await getConnection();
     const request = await cnx.request();
 

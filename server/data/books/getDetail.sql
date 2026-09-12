@@ -29,6 +29,6 @@ SELECT S.[Tu dien],
 FROM [DataThuVien].[dbo].[Sach] S, [DataThuVien].[dbo].[NSach] NS
 WHERE 
         S.[So Tai san] = NS.MaSach 
-        AND NS.[MaSach] = @q
+        AND S.[So Tai san] = @q
 FOR JSON AUTO
 
