@@ -1,5 +1,5 @@
 module.exports = {
-  version: "26.9.10",
+  version: "26.9.12",
   port: 6314,
   sql: {
     user: "webA",
