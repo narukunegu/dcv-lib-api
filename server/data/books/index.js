@@ -90,7 +90,6 @@ const register = async ({ sql, getConnection, closePool }) => {
     await request
       .query(sqlQueries.getDetail)
       .then((res) => {
-        console.log(res);
         result = res.recordset[0] || [];
       })
       .catch((err) => {
@@ -99,7 +98,7 @@ const register = async ({ sql, getConnection, closePool }) => {
       });
 
     return {
-      book: result.book[0],
+      book: result[0],
     };
   };
 
