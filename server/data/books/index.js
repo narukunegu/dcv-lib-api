@@ -99,7 +99,7 @@ const register = async ({ sql, getConnection, closePool }) => {
       });
 
     return {
-      book: result,
+      book: result.book[0],
     };
   };
 
