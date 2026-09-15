@@ -49,6 +49,11 @@ const client = async ( server, config ) => {
         }
     };
 
+    // register server stop lifecycle hook for graceful teardown
+    server.events.on("stop", async () => {
+        await closePool();
+    });
+
     // this is the API the client exposes to the rest
     // of the application
     return {

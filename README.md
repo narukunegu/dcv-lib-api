@@ -1,19 +1,27 @@
 # dcv-lib-api
 
-## Project setup
+Hapi-powered backend API server for `dcv-lib`, integrated with Microsoft SQL Server (MSSQL).
 
-```
+## Prerequisites
+
+- Node.js (v16+ recommended)
+- Microsoft SQL Server configured and accessible via config settings
+
+## Project Setup
+
+```bash
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Running the API Server
 
-```
-npm run serve
+```bash
+npm start
 ```
 
-### Compiles and minifies for production
+## API Endpoints
 
-```
-npm run build
-```
+- `GET /api/books`: Search and retrieve books.
+- `GET /api/book/{id}`: Get full details of a specific book.
+- `GET /api/books/cover/{filename}`: Serve book cover image files.
+

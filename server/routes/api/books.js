@@ -1,10 +1,19 @@
 module.exports.register = async (server) => {
+  const Boom = require("@hapi/boom");
+  const Joi = require("@hapi/joi");
   const { Chalk } = await import("chalk");
   const chalk = new Chalk();
   server.route({
     method: "GET",
     path: "/api/books",
     config: {
+      validate: {
+        query: Joi.object({
+          q: Joi.string().allow("").optional(),
+          page: Joi.number().integer().min(1).optional(),
+          limit: Joi.number().integer().min(1).max(100).optional(),
+        }),
+      },
       handler: async (request) => {
         try {
           // get the sql client registered as a plugin
@@ -14,7 +23,7 @@ module.exports.register = async (server) => {
           const query = request.query;
 
           // execute the query
-          var start = Date.now();
+          const start = Date.now();
           const res = await db.books.search(query);
           console.log(
             chalk.bgGreen(`${(Date.now() - start) / 1000}s`),
@@ -24,6 +33,7 @@ module.exports.register = async (server) => {
           return res;
         } catch (err) {
           server.log(["error", "api", "books"], err);
+          throw Boom.internal("An error occurred while fetching books");
         }
       },
     },
@@ -33,6 +43,11 @@ module.exports.register = async (server) => {
     method: "GET",
     path: "/api/book/{id}",
     config: {
+      validate: {
+        params: Joi.object({
+          id: Joi.alternatives().try(Joi.string(), Joi.number()).required(),
+        }),
+      },
       handler: async (request) => {
         try {
           // get the sql client registered as a plugin
@@ -42,7 +57,7 @@ module.exports.register = async (server) => {
           const query = request.params.id;
 
           // execute the query
-          var start = Date.now();
+          const start = Date.now();
           const res = await db.books.getDetail(query);
           console.log(
             chalk.bgGreen(`${(Date.now() - start) / 1000}s`),
@@ -52,6 +67,7 @@ module.exports.register = async (server) => {
           return res;
         } catch (err) {
           server.log(["error", "api", "books"], err);
+          throw Boom.internal("An error occurred while fetching book details");
         }
       },
     },
