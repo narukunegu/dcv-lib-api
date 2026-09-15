@@ -10,6 +10,9 @@ const app = async (config) => {
   const server = Hapi.server({
     port,
     routes: {
+      cors: {
+        origin: ["*"],
+      },
       files: {
         relativeTo: join(__dirname, ".."),
       },
