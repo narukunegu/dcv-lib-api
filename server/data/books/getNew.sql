@@ -1,24 +1,16 @@
-SELECT TOP 5 
-        S.[Chu de Tong quat], 
-        S.[So Chu de], 
-        S.[So Tac gia], 
+WITH S AS (
+  SELECT *,
+    ROW_NUMBER() OVER (PARTITION BY Sach.[Tua] ORDER BY Sach.[So Tai san] ASC) AS RowCount
+  FROM [DataThuVien].[dbo].[Sach] Sach
+)
+
+SELECT TOP 10 
         S.[So Tai san], 
         S.[Tua], 
-        S.[Ten Tac gia], 
-        S.[Ho Tac gia], 
-        S.[Dich gia], 
-        S.[Noi Xb], 
-        S.[Nha Xb], 
-        S.[Nam Xb], 
-        S.[So trang], 
-        S.[Ngon ngu], 
-        S.[Tinh trang],
-        NS.[Tua],
-        NS.[TenTgia],
-        NS.[HoTgia],
-        NS.[Chude]
-FROM [DataThuVien].[dbo].[Sach] S, [DataThuVien].[dbo].[NSach] NS
+FROM S, [DataThuVien].[dbo].[NSach] NS
 WHERE 
         S.[So Tai san] = NS.MaSach
-ORDER BY S.[So Tai san] DESC
+        AND RowCount = 1
+        AND S.[BiaSach] IS NOT NULL
+ORDER BY NS.[CapNhat] DESC
 FOR JSON AUTO
