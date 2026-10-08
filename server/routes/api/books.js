@@ -41,6 +41,32 @@ module.exports.register = async (server) => {
 
   server.route({
     method: "GET",
+    path: "/api/books/new",
+    config: {
+      handler: async (request) => {
+        try {
+          // get the sql client registered as a plugin
+          const db = request.server.plugins.sql.client;
+
+          // execute the query
+          const start = Date.now();
+          const res = await db.books.getNew();
+          console.log(
+            chalk.bgGreen(`${(Date.now() - start) / 1000}s`),
+            `${chalk.underline(new Date().toLocaleString())}: Get ${chalk.bold(res.books.length)} new books`,
+          );
+
+          return res;
+        } catch (err) {
+          server.log(["error", "api", "books"], err);
+          throw Boom.internal("An error occurred while fetching new books");
+        }
+      },
+    },
+  });
+
+  server.route({
+    method: "GET",
     path: "/api/book/{id}",
     config: {
       validate: {

@@ -102,72 +102,33 @@ const register = async ({ sql, getConnection, closePool }) => {
     };
   };
 
-  const init = async ({ version, port }) => {
+  const getNew = async () => {
     const cnx = await getConnection();
     const request = await cnx.request();
 
-    //const { Chalk } = await import("chalk");
-    //const chalk = new Chalk();
+    request.stream = false;
 
-    //try {
-    //  console.log("Loading data...");
-    //  const bar = new cliProgress.SingleBar(
-    //    {},
-    //    cliProgress.Presets.shades_classic,
-    //  );
+    var result = [];
 
-    //  var total = 0;
-    //  await request
-    //    .query(
-    //      "SELECT count([So Tai san]) AS [total] FROM [DataThuVien].[dbo].[Sach] WHERE [BiaSach] IS NOT NULL",
-    //    )
-    //    .then((res) => {
-    //      total = res.recordset[0]["total"];
-    //    });
+    await request
+      .query(sqlQueries.getNew)
+      .then((res) => {
+        result = res.recordset[0] || [];
+      })
+      .catch((err) => {
+        closePool();
+        throw err;
+      });
 
-    //  bar.start(total, 0);
-
-    //  request.stream = true;
-
-    //  request.query(sqlQueries.loadCovers);
-
-    //  await request.on("row", (book) => {
-    //    // Emitted for each row in a recordset
-    //    request.pause();
-
-    //    sharp(Buffer.from(book["BiaSach"], "base64"))
-    //      .jpeg({
-    //        quality: 100,
-    //        chromaSubsampling: "4:4:4",
-    //      })
-    //      .toFile(`./assets/books/cover/${book["So Tai san"]}.jpg`)
-    //      .catch((err) => {
-    //        console.log(`\n`, err);
-    //      });
-
-    //    bar.increment();
-    //    request.resume();
-    //  });
-
-    //  request.on("done", () => {
-    //    // Always emitted as the last one
-    //    bar.stop();
-    //    console.log(
-    //      chalk.green(
-    //        `Server ${chalk.underline.bold(version)} successfully started on port ${chalk.underline.bold(port)}`,
-    //      ),
-    //    );
-    //  });
-    //} catch (err) {
-    //  await closePool();
-    //  throw err;
-    //}
+    return {
+      books: result,
+    };
   };
 
   return {
     search,
     getDetail,
-    // init,
+    getNew,
   };
 };
 
