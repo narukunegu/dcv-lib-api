@@ -1,6 +1,6 @@
 module.exports = {
   version: "26.10.8",
-  port: 6314,
+  port: 1903,
   sql: {
     user: "webA",
     password: "@bcD1234",
