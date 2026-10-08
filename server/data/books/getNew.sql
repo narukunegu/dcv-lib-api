@@ -6,7 +6,10 @@ WITH S AS (
 
 SELECT TOP 10 
         S.[So Tai san], 
-        S.[Tua] 
+        S.[Tua],
+        S.[Ho Tac gia],
+        S.[Ten Tac gia],
+        S.[Nam Xb]
 FROM S, [DataThuVien].[dbo].[NSach] NS
 WHERE 
         S.[So Tai san] = NS.MaSach
