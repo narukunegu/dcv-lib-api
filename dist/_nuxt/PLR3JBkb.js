@@ -1,0 +1,1 @@
+import"#entry";var e=``+new URL(`oldtempleS.B7v7HZJA.webp`,import.meta.url).href;export{e as t};

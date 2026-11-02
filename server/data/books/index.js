@@ -125,10 +125,66 @@ const register = async ({ sql, getConnection, closePool }) => {
     };
   };
 
+  //TODO: only run run init in PROD mode
+  const init = async () => {
+    const cnx = await getConnection();
+    const request = await cnx.request();
+
+    try {
+      console.log("Loading data...");
+      const bar = new cliProgress.SingleBar(
+        {},
+        cliProgress.Presets.shades_classic,
+      );
+
+      var total = 0;
+      await request
+        .query(
+          "SELECT count([So Tai san]) AS [total] FROM [DataThuVien].[dbo].[Sach] WHERE [BiaSach] IS NOT NULL",
+        )
+        .then((res) => {
+          total = res.recordset[0]["total"];
+        });
+
+      bar.start(total, 0);
+
+      request.stream = true;
+
+      request.query(sqlQueries.loadCovers);
+
+      await request.on("row", (book) => {
+        // Emitted for each row in a recordset
+        request.pause();
+
+        sharp(Buffer.from(book["BiaSach"], "base64"))
+          .jpeg({
+            quality: 100,
+            chromaSubsampling: "4:4:4",
+          })
+          .toFile(`./assets/books/cover/${book["So Tai san"]}.jpg`)
+          .catch((err) => {
+            console.log(`\n`, err);
+          });
+
+        bar.increment();
+        request.resume();
+      });
+
+      request.on("done", () => {
+        // Always emitted as the last one
+        bar.stop();
+      });
+    } catch (err) {
+      await closePool();
+      throw err;
+    }
+  };
+
   return {
     search,
     getDetail,
     getNew,
+    init,
   };
 };
 

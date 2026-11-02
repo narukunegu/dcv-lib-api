@@ -1,9 +1,10 @@
 {
   "name": "dcv-lib",
-  "version": "26.10.8",
+  "version": "26.11.2",
   "private": true,
   "scripts": {
-    "start": "node server/."
+    "start": "NODE_ENV=production node server/.",
+    "dev": "NODE_ENV=development node server/."
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",

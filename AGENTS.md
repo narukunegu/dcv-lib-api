@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Commands
-- `npm start`: Start the Hapi API server (`node server/.`). Port defaults to `6314`.
+- `npm start`: Start the Hapi API server (`node server/.`). Port defaults to `1903` (`server/config.js`).
 - `npm install`: Install dependencies.
 
 ## Architecture & Layout

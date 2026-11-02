@@ -29,8 +29,17 @@ const app = async (config) => {
   await routes.register(server);
 
   //load book covers
-  //console.log('On dev')
-  //await server.plugins.sql.client.books.init(config);
+  if (process.env.NODE_ENV === "production") {
+    await server.plugins.sql.client.books.init();
+  }
+
+  const { Chalk } = await import("chalk");
+  const chalk = new Chalk();
+  console.log(
+    chalk.green(
+      `Server ${chalk.underline.bold(config.version)} successfully started on port ${chalk.underline.bold(port)}`,
+    ),
+  );
 
   return server;
 };
